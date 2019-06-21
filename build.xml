@@ -1,0 +1,43 @@
+<project name="openresty-demo" default="default" basedir=".">
+    <description>
+        This is the Demo of OpenResty !
+    </description>
+    <echo>使用说明</echo>
+    <echo>第一步===》设置全局变量</echo>
+    <echo>第二步===》清理工作目录下的日志，源文件及配置项</echo>
+    <echo>第三步===》重新创建以上目录</echo>
+    <echo>第四步===》复制项目下的文件到对应目录</echo>
+    <echo>第五步===》输入http:localhost,返回成功页</echo>
+    <echo>第六步===》输入http:localhost/hello,返回hello</echo>
+    <echo>第七步===》进行后续代码开发</echo>
+    <property name="openresty-home" location="D:\software\openresty-1.13.6.2-win64"/>
+    <property name="work-conf" location="${openresty-home}/conf"/>
+    <property name="work-src" location="${openresty-home}/lua/src"/>
+    <property name="work-logs" location="${openresty-home}/logs"/>
+    <property name="conf" location="${basedir}/conf/"/>
+    <property name="src" location="${basedir}/src"/>
+
+    <target name="clean" description="clean conf,src,logs">
+        <delete dir="${work-conf}"/>
+        <delete dir="${work-src}"/>
+        <delete>
+            <fileset dir="${work-logs}" includes="*.*">
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="init" depends="clean" description="create dirs">
+        <mkdir dir="${work-conf}"/>
+        <mkdir dir="${work-src}"/>
+    </target>
+
+    <target name="default" depends="init" description="prepare source">
+        <copy todir="${work-conf}">
+            <fileset dir="${conf}"></fileset>
+        </copy>
+        <copy todir="${work-src}">
+            <fileset dir="${src}"></fileset>
+        </copy>
+    </target>
+
+</project>
